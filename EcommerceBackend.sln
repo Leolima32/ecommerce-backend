@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "src\WebApi\WebApi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{33208143-7CC6-42C9-A055-1C78BCE27017}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
@@ -28,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5F4421E3-AF25-4BD2-950F-7D17F1B18964} = {165DDF50-B810-4633-986C-83F7AACFAD15}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4A898B0B-6EBD-4878-9CF8-B13C9E8603A0}
 	EndGlobalSection
 EndGlobal

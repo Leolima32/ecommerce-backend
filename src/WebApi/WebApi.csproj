@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Modules\Catalog\Catalog.Endpoints\Catalog.Endpoints.csproj" />
+    <ProjectReference Include="..\Modules\Catalog\Catalog.Presentation\Catalog.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

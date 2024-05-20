@@ -1,4 +1,4 @@
-using Catalog.Endpoints;
+using Catalog.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();

@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Domain", "src\Modul
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Infrastructure", "src\Modules\Catalog\Catalog.Infrastructure\Catalog.Infrastructure.csproj", "{1DB27B7E-84DC-48F4-AB2C-8469F020B275}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Endpoints", "src\Modules\Catalog\Catalog.Endpoints\Catalog.Endpoints.csproj", "{1D6D673A-2ACE-4D72-A769-6F0B9012FDC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Presentation", "src\Modules\Catalog\Catalog.Presentation\Catalog.Presentation.csproj", "{1D6D673A-2ACE-4D72-A769-6F0B9012FDC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,6 +10,4 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/", () => "Hello World!");
-
 await app.RunAsync().ConfigureAwait(false);

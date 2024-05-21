@@ -1,6 +1,6 @@
 namespace Catalog.Infrastructure.Database;
 
-public static class Schema
+internal static class Schema
 {
-    public const string CatalogSchema = "catalog";
+    internal const string CatalogSchema = "catalog";
 }

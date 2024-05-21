@@ -4,5 +4,5 @@ namespace Catalog.Presentation.Extensions;
 
 public static class RegisterCatalogModule
 {
-    public static void AddCatalogModules(this IServiceCollection service) { }
+    public static void AddCatalogModule(this IServiceCollection service) { }
 }

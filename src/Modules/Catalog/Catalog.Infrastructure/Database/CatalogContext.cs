@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Infrastructure.Database;
 
-public class CatalogContext(DbContextOptions options) : GenericDbContext(options)
+internal class CatalogContext(DbContextOptions options) : GenericDbContext(options)
 {
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Category> Categories { get; set; }
+    internal DbSet<Product> Products { get; set; }
+    internal DbSet<Category> Categories { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

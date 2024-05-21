@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Infrastructure.Database;
 
-internal class CatalogContext(DbContextOptions options) : GenericDbContext(options)
+sealed class CatalogContext(DbContextOptions options) : GenericDbContext(options)
 {
     internal DbSet<Product> Products { get; set; }
     internal DbSet<Category> Categories { get; set; }

@@ -3,6 +3,8 @@ using Catalog.Domain.Interfaces;
 using Catalog.Infrastructure.Database;
 using LF.GenericRepository.EntityFrameworkCore.Repository;
 
-internal class ProductsRepository(CatalogContext _context) : GenericRepository<Product>(_context), IProductsRepository
+namespace Catalog.Infrastructure.Repositories;
+
+sealed class ProductsRepository(CatalogContext _context) : GenericRepository<Product>(_context), IProductsRepository
 {
 }

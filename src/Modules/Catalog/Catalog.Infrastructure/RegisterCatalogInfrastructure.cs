@@ -1,7 +1,8 @@
 using Catalog.Domain.Interfaces;
-using Catalog.Infrastructure.Database;
+using Catalog.Infrastructure.Data;
 using Catalog.Infrastructure.Repositories;
 using LF.GenericRepository.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

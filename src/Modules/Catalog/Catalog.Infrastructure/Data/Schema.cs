@@ -1,4 +1,4 @@
-namespace Catalog.Infrastructure.Database;
+namespace Catalog.Infrastructure.Data;
 
 internal static class Schema
 {

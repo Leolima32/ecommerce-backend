@@ -1,3 +1,4 @@
+using Catalog.Application.Commands;
 using Catalog.Application.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -21,8 +22,19 @@ public static class RegisterProductsEndpoints
             return Results.Ok(result.Value);
         });
 
-        app.MapGet("/products/{productId}", (IProductsServices service, Guid productId) => {
-            var result = service.GetProductById(productId);
+        app.MapGet("/products/{productId}", async (Guid productId, IProductsServices service) => {
+            var result = await service.GetProductById(productId).ConfigureAwait(false);
+
+            if (result.IsFailure)
+            {
+                return Results.BadRequest(result.Error);
+            }
+
+            return Results.Ok(result.Value);
+        });
+
+        app.MapPost("/products", async (AddProductCommand command, IProductsServices service) => {
+            var result = await service.AddProduct(command).ConfigureAwait(false);
         });
     }
 }

@@ -1,6 +1,9 @@
+using Catalog.Application.Commands;
 using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
+using Catalog.Domain.Errors;
 using Catalog.Domain.Interfaces;
+using Shared.Models;
 
 namespace Catalog.Application.Services;
 
@@ -8,30 +11,70 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
 {
     private readonly IProductsRepository _repo = repo;
 
-    public async Task<Guid> AddProduct(Product product)
+    public async Task<Result<Guid>> AddProduct(AddProductCommand command)
     {
-        return await _repo.AddAsync(product).ConfigureAwait(false);
+        try
+        {
+            return Result<Guid>.Success(await _repo.AddAsync(command.ToProduct()).ConfigureAwait(false));
+        }
+        catch (Exception)
+        {
+            return Result<Guid>.Failure(CatalogErrors.UnableToAddProduct);
+        }
     }
 
-    public bool DeleteProduct(Guid id)
+    public Result DeleteProduct(Guid id)
     {
-        _repo.Remove(id);
-        return true;
+        try
+        {
+            _repo.Remove(id);
+            return Result.Success();
+        }
+        catch (Exception)
+        {
+            return Result.Failure(CatalogErrors.UnableToDeleteProductThatDoesNotExists);
+        }
     }
 
-    public async Task<IEnumerable<Product>> GetAllProducts()
+    public async Task<Result<IEnumerable<Product>>> GetAllProducts()
     {
-        return await _repo.GetAllAsync().ConfigureAwait(false);
+        try
+        {
+            return Result<IEnumerable<Product>>.Success(await _repo.GetAllAsync().ConfigureAwait(false));
+        }
+        catch (Exception)
+        {
+            return Result<IEnumerable<Product>>.Failure(CatalogErrors.UnableToFetchProducts);
+        }
     }
 
-    public async Task<Product> GetProductById(Guid id)
+    public async Task<Result<Product>> GetProductById(Guid id)
     {
-        return await _repo.GetByIdAsync(id).ConfigureAwait(false);
+        try
+        {
+            var product = await _repo.GetByIdAsync(id).ConfigureAwait(false);
+
+            return product == null ? Result<Product>.Failure(CatalogErrors.UnableToFindProductId) : Result<Product>.Success(product);
+        }
+        catch (Exception)
+        {
+            return Result<Product>.Failure(CatalogErrors.UnexpectedErrorOcurred);
+        }
     }
 
-    public bool UpdateProduct(Product product)
+    public Result UpdateProduct(UpdateProductCommand command)
     {
-        _repo.Update(product);
-        return true;
+        try
+        {
+            _repo.Update(command.Id, command.ToProduct());
+            return Result.Success();
+        }
+        catch (InvalidDataException)
+        {
+            return Result.Failure(CatalogErrors.UnableToFindProductId);
+        }
+        catch (Exception) {
+            return Result.Failure(CatalogErrors.UnexpectedErrorOcurred);
+        }
     }
 }

@@ -1,3 +1,4 @@
+using Catalog.Application.Commands;
 using Catalog.Domain.Entities;
 using Shared.Models;
 
@@ -7,7 +8,7 @@ public interface IProductsServices
 {
     public Task<Result<IEnumerable<Product>>> GetAllProducts();
     public Task<Result<Product>> GetProductById(Guid id);
-    public Task<Result<Guid>> AddProduct(Product product);
-    public Result<bool> UpdateProduct(Product product);
-    public Result<bool> DeleteProduct(Guid id);
+    public Task<Result<Guid>> AddProduct(AddProductCommand product);
+    public Result UpdateProduct(UpdateProductCommand product);
+    public Result DeleteProduct(Guid id);
 }

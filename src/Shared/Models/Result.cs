@@ -1,3 +1,4 @@
+
 namespace Shared.Models;
 
 public class Result

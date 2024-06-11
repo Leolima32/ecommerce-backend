@@ -29,5 +29,17 @@ public static class RegisterProductsEndpoints
 
             return Results.Extensions.MapResult(result);
         });
+
+        app.MapPut("/products", (UpdateProductCommand command, IProductsServices service) => {
+            var result = service.UpdateProduct(command);
+
+            return Results.Extensions.MapResult(result);
+        });
+
+        app.MapDelete("/products/{productId}", (Guid productId, IProductsServices service) => {
+            var result = service.DeleteProduct(productId);
+
+            return Results.Extensions.MapResult(result);
+        });
     }
 }

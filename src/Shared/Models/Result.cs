@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Http;
 
 namespace Shared.Models;
-
 public class Result
 {
     private Result(bool isSuccess, Error error)
@@ -46,4 +46,13 @@ public class Result<T>
     public static Result<T> Success(T value) => new(value);
 
     public static Result<T> Failure(Error error) => new(error);
+
+    public int GetStatusCode(ErrorType errorType)  {
+        return errorType switch {
+            ErrorType.Validation => StatusCodes.Status400BadRequest,
+            ErrorType.Conflict => StatusCodes.Status409Conflict,
+            ErrorType.NotFound => StatusCodes.Status404NotFound,
+            _ => StatusCodes.Status500InternalServerError
+        };
+    }
 }

@@ -2,8 +2,8 @@ using LF.GenericRepository.EntityFrameworkCore.Model;
 
 namespace Catalog.Domain.Entities;
 
-public class Category : BaseModel
+public class Category(string name) : BaseModel
 {
-    public required string Name { get; set; }
+    public string Name { get; set; } = name;
     public IEnumerable<Product>? ProductsInThisCategory { get; set; }
 }

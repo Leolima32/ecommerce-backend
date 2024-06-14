@@ -42,9 +42,9 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
         {
             return Result<IEnumerable<Product>>.Success(await _repo.GetAllAsync().ConfigureAwait(false));
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Result<IEnumerable<Product>>.Failure(CatalogErrors.UnableToFetchProducts);
+            return Result<IEnumerable<Product>>.Failure(Error.Failure("Catalog.ProductsServices.GetAllProducts", ex.Message));
         }
     }
 
@@ -56,9 +56,9 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
 
             return product == null ? Result<Product>.Failure(CatalogErrors.UnableToFindProductId) : Result<Product>.Success(product);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Result<Product>.Failure(CatalogErrors.UnexpectedErrorOcurred);
+            return Result<Product>.Failure(Error.Failure("Catalog.ProductsServices.GetProductById", ex.Message));
         }
     }
 
@@ -73,8 +73,8 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
         {
             return Result.Failure(CatalogErrors.UnableToFindProductId);
         }
-        catch (Exception) {
-            return Result.Failure(CatalogErrors.UnexpectedErrorOcurred);
+        catch (Exception ex) {
+            return Result.Failure(Error.Failure("Catalog.ProductsServices.UpdateProduct", ex.Message));
         }
     }
 }

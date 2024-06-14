@@ -1,6 +1,6 @@
 using Catalog.Application.Commands;
 using Catalog.Application.Interfaces;
-using Catalog.Domain.Entities;
+using Catalog.Application.ViewModels;
 using Catalog.Domain.Errors;
 using Catalog.Domain.Interfaces;
 using Shared.Models;
@@ -17,9 +17,9 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
         {
             return Result<Guid>.Success(await _repo.AddAsync(command.ToProduct()).ConfigureAwait(false));
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Result<Guid>.Failure(CatalogErrors.UnableToAddProduct);
+            return Result<Guid>.Failure(Error.Failure("Catalog.ProductsService.AddProduct", ex.Message));
         }
     }
 
@@ -30,35 +30,36 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
             _repo.Remove(id);
             return Result.Success();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Result.Failure(CatalogErrors.UnableToDeleteProductThatDoesNotExists);
+            return Result.Failure(Error.Failure("Catalog.ProductsService.DeleteProduct", ex.Message));
         }
     }
 
-    public async Task<Result<IEnumerable<Product>>> GetAllProducts()
+    public async Task<Result<IEnumerable<ProductViewModel>>> GetAllProducts()
     {
         try
         {
-            return Result<IEnumerable<Product>>.Success(await _repo.GetAllAsync().ConfigureAwait(false));
+            var resultList = await _repo.GetAllAsync().ConfigureAwait(false);
+            return Result<IEnumerable<ProductViewModel>>.Success(resultList.Select(ProductViewModel.FromProduct));
         }
         catch (Exception ex)
         {
-            return Result<IEnumerable<Product>>.Failure(Error.Failure("Catalog.ProductsServices.GetAllProducts", ex.Message));
+            return Result<IEnumerable<ProductViewModel>>.Failure(Error.Failure("Catalog.ProductsServices.GetAllProducts", ex.Message));
         }
     }
 
-    public async Task<Result<Product>> GetProductById(Guid id)
+    public async Task<Result<ProductViewModel>> GetProductById(Guid id)
     {
         try
         {
             var product = await _repo.GetByIdAsync(id).ConfigureAwait(false);
 
-            return product == null ? Result<Product>.Failure(CatalogErrors.UnableToFindProductId) : Result<Product>.Success(product);
+            return product == null ? Result<ProductViewModel>.Failure(CatalogErrors.UnableToFindProductId) : Result<ProductViewModel>.Success(ProductViewModel.FromProduct(product));
         }
         catch (Exception ex)
         {
-            return Result<Product>.Failure(Error.Failure("Catalog.ProductsServices.GetProductById", ex.Message));
+            return Result<ProductViewModel>.Failure(Error.Failure("Catalog.ProductsServices.GetProductById", ex.Message));
         }
     }
 

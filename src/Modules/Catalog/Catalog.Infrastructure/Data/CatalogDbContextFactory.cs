@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Catalog.Infrastructure.Data;
 
-internal class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogContext>
+sealed class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogContext>
 {
     CatalogContext IDesignTimeDbContextFactory<CatalogContext>.CreateDbContext(string[] args)
     {

@@ -42,17 +42,7 @@ CREATE INDEX [IX_Products_CategoryId] ON [catalog].[Products] ([CategoryId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20240531154044_InitialMigration', N'8.0.5');
-GO
-
-COMMIT;
-GO
-
-BEGIN TRANSACTION;
-GO
-
-INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20240612181256_CategoryId', N'8.0.5');
+VALUES (N'20240614173253_InitDatabase', N'8.0.5');
 GO
 
 COMMIT;

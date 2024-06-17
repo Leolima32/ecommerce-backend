@@ -17,9 +17,9 @@ public class CategoriesServices(ICategoriesRepository repo) : ICategoriesService
         {
             return Result<Guid>.Success(await _repo.AddAsync(command.ToCategory()).ConfigureAwait(false));
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Result<Guid>.Failure(CatalogErrors.UnableToAddCategory);
+            return Result<Guid>.Failure(Error.Failure("Catalog.Categories.AddCategory", ex.Message));
         }
     }
 
@@ -32,7 +32,7 @@ public class CategoriesServices(ICategoriesRepository repo) : ICategoriesService
         }
         catch (Exception)
         {
-            return Result.Failure(CatalogErrors.UnableToDeleteCategoryThatDoesNotExists);
+            return Result.Failure(CategoriesErrors.UnableToDeleteCategoryThatDoesNotExists);
         }
     }
 
@@ -42,9 +42,9 @@ public class CategoriesServices(ICategoriesRepository repo) : ICategoriesService
         {
             return Result<IEnumerable<Category>>.Success(await _repo.GetAllAsync().ConfigureAwait(false));
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Result<IEnumerable<Category>>.Failure(CatalogErrors.UnableToFetchCategories);
+            return Result<IEnumerable<Category>>.Failure(Error.Failure("Catalog.Categories.GetAllCategories", ex.Message));
         }
     }
 
@@ -54,11 +54,11 @@ public class CategoriesServices(ICategoriesRepository repo) : ICategoriesService
         {
             var category = await _repo.GetByIdAsync(id).ConfigureAwait(false);
 
-            return category == null ? Result<Category>.Failure(CatalogErrors.UnableToFindCategoryId) : Result<Category>.Success(category);
+            return category == null ? Result<Category>.Failure(CategoriesErrors.UnableToFindCategoryId) : Result<Category>.Success(category);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Result<Category>.Failure(CatalogErrors.UnexpectedErrorOcurred);
+            return Result<Category>.Failure(Error.Failure("Catalog.Categories.GetCategoryById", ex.Message));
         }
     }
 }

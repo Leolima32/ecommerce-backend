@@ -15,6 +15,21 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
     {
         try
         {
+            if (command.CategoryId == Guid.Empty)
+            {
+                return Result<Guid>.Failure(ProductsErrors.UnableToAddProductMissingCategorieId);
+            }
+
+            if (string.IsNullOrEmpty(command.Name))
+            {
+                return Result<Guid>.Failure(ProductsErrors.UnableToAddProductMissingName);
+            }
+
+            if (command.Price == 0)
+            {
+                return Result<Guid>.Failure(ProductsErrors.UnableToAddProductMissingPrice);
+            }
+
             return Result<Guid>.Success(await _repo.AddAsync(command.ToProduct()).ConfigureAwait(false));
         }
         catch (Exception ex)
@@ -55,7 +70,7 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
         {
             var product = await _repo.GetByIdAsync(id).ConfigureAwait(false);
 
-            return product == null ? Result<ProductViewModel>.Failure(CatalogErrors.UnableToFindProductId) : Result<ProductViewModel>.Success(ProductViewModel.FromProduct(product));
+            return product == null ? Result<ProductViewModel>.Failure(ProductsErrors.UnableToFindProductId) : Result<ProductViewModel>.Success(ProductViewModel.FromProduct(product));
         }
         catch (Exception ex)
         {
@@ -72,9 +87,10 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
         }
         catch (InvalidDataException)
         {
-            return Result.Failure(CatalogErrors.UnableToFindProductId);
+            return Result.Failure(ProductsErrors.UnableToFindProductId);
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             return Result.Failure(Error.Failure("Catalog.ProductsServices.UpdateProduct", ex.Message));
         }
     }

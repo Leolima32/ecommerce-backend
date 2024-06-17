@@ -7,5 +7,6 @@ public static class RegisterCatalogEndpoints
 {
     public static void MapCatalogEndpoints(this IEndpointRouteBuilder app) {
         app.MapProductsEndpoints();
+        app.MapCategoriesEndpoints();
     }
 }

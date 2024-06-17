@@ -10,6 +10,7 @@ public static class RegisterCatalogApplication
 {
     public static void AddCatalogApplication(this IServiceCollection services, IConfiguration configuration) {
         services.AddTransient<IProductsServices,ProductsServices>();
+        services.AddTransient<ICategoriesServices,CategoriesServices>();
         RegisterCatalogInfrastructure.AddCatalogInfra(services, configuration);
     }
 }

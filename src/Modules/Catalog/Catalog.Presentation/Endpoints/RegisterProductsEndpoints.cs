@@ -12,31 +12,33 @@ public static class RegisterProductsEndpoints
     {
         app.MapGet("/", () => "Hello TESTE!");
 
-        app.MapGet("/products", async (IProductsServices service) => {
+        var endpoints = app.MapGroup("api/products");
+
+        endpoints.MapGet("", async (IProductsServices service) => {
             var result = await service.GetAllProducts().ConfigureAwait(false);
 
             return Results.Extensions.MapResult(result);
         });
 
-        app.MapGet("/products/{productId}", async (Guid productId, IProductsServices service) => {
+        endpoints.MapGet("/{productId}", async (Guid productId, IProductsServices service) => {
             var result = await service.GetProductById(productId).ConfigureAwait(false);
 
             return Results.Extensions.MapResult(result);
         });
 
-        app.MapPost("/products", async (AddProductCommand command, IProductsServices service) => {
+        endpoints.MapPost("", async (AddProductCommand command, IProductsServices service) => {
             var result = await service.AddProduct(command).ConfigureAwait(false);
 
             return Results.Extensions.MapResult(result);
         });
 
-        app.MapPut("/products", (UpdateProductCommand command, IProductsServices service) => {
+        endpoints.MapPut("", (UpdateProductCommand command, IProductsServices service) => {
             var result = service.UpdateProduct(command);
 
             return Results.Extensions.MapResult(result);
         });
 
-        app.MapDelete("/products/{productId}", (Guid productId, IProductsServices service) => {
+        endpoints.MapDelete("/{productId}", (Guid productId, IProductsServices service) => {
             var result = service.DeleteProduct(productId);
 
             return Results.Extensions.MapResult(result);

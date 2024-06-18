@@ -14,6 +14,7 @@ sealed class ProductsRepository(CatalogContext _context) : GenericRepository<Pro
         entityToUpdate.Name = model.Name;
         entityToUpdate.Price = model.Price;
         entityToUpdate.CategoryId = model.CategoryId;
+        entityToUpdate.Tags = model.Tags;
 
         _context.SaveChanges();
     }

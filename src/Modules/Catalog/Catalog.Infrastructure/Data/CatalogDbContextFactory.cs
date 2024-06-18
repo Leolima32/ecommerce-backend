@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 
 namespace Catalog.Infrastructure.Data;
@@ -19,7 +20,9 @@ sealed class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogContex
         var builder = new DbContextOptionsBuilder<CatalogContext>();
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        builder.UseSqlServer(connectionString);
+        builder.UseSqlServer(connectionString, options => {
+            options.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schema.CatalogSchema);
+        });
 
         return new CatalogContext(builder.Options);
     }

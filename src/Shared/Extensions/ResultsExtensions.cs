@@ -32,7 +32,13 @@ public static class ResultsExtensions
             ErrorType.Validation => Results.BadRequest(error),
             ErrorType.Conflict => Results.Conflict(error),
             ErrorType.NotFound => Results.NotFound(error),
-            _ => Results.BadRequest(error)
+            _ => Results.Problem(
+                statusCode: 500,
+                title: "Server Failure",
+                type: Enum.GetName(typeof(ErrorType), error.Type),
+                extensions: new Dictionary<string, object?> {
+                    { "errors", new [] { error } }
+                })
         };
     }
 }

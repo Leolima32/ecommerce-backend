@@ -7,6 +7,7 @@ services:
       - "7000:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqldata;Database=ECommerce;User=sa;Password=Pass@word;TrustServerCertificate=True
     depends_on:
         - sqldata
   sqldata:

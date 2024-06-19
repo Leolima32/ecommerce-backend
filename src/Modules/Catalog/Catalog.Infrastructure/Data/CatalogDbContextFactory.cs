@@ -15,6 +15,7 @@ sealed class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogContex
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .AddJsonFile($"appsettings.{envName}.json", optional: false)
+            .AddEnvironmentVariables()
             .Build();
 
         var builder = new DbContextOptionsBuilder<CatalogContext>();

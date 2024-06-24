@@ -3,6 +3,7 @@ using Catalog.Application.Interfaces;
 using Catalog.Application.ViewModels;
 using Catalog.Domain.Errors;
 using Catalog.Domain.Interfaces;
+using Serilog;
 using Shared.Models;
 
 namespace Catalog.Application.Services;
@@ -30,11 +31,15 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
                 return Result<Guid>.Failure(ProductsErrors.UnableToAddProductMissingPrice);
             }
 
-            return Result<Guid>.Success(await _repo.AddAsync(command.ToProduct()).ConfigureAwait(false));
+            var createdId = await _repo.AddAsync(command.ToProduct()).ConfigureAwait(false);
+            
+            return Result<Guid>.Success(createdId);
         }
         catch (Exception ex)
         {
-            return Result<Guid>.Failure(Error.Failure("Catalog.ProductsService.AddProduct", ex.Message));
+            var failure = Error.Failure("Catalog.ProductsService.AddProduct", ex.Message);
+            Log.Error("Unexpected error occurred: {@Error}", failure);
+            return Result<Guid>.Failure(failure);
         }
     }
 

@@ -1,7 +1,14 @@
+using System.Globalization;
 using System.Text.Json.Serialization;
 using Catalog.Presentation.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console(formatProvider: CultureInfo.CurrentCulture)
+            .CreateLogger();
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();

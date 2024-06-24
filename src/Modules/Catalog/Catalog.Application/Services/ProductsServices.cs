@@ -3,12 +3,12 @@ using Catalog.Application.Interfaces;
 using Catalog.Application.ViewModels;
 using Catalog.Domain.Errors;
 using Catalog.Domain.Interfaces;
-using Serilog;
+using Shared.Base;
 using Shared.Models;
 
 namespace Catalog.Application.Services;
 
-public class ProductsServices(IProductsRepository repo) : IProductsServices
+public class ProductsServices(IProductsRepository repo) : BaseServices, IProductsServices
 {
     private readonly IProductsRepository _repo = repo;
 
@@ -37,9 +37,7 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
         }
         catch (Exception ex)
         {
-            var failure = Error.Failure("Catalog.ProductsService.AddProduct", ex.Message);
-            Log.Error("Unexpected error occurred: {@Error}", failure);
-            return Result<Guid>.Failure(failure);
+            return HandleError<Guid>("Catalog.ProductsServices.AddProduct", ex);
         }
     }
 
@@ -52,7 +50,7 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
         }
         catch (Exception ex)
         {
-            return Result.Failure(Error.Failure("Catalog.ProductsService.DeleteProduct", ex.Message));
+            return HandleError("Catalog.ProductsServices.DeleteProduct", ex);
         }
     }
 
@@ -65,7 +63,7 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
         }
         catch (Exception ex)
         {
-            return Result<IEnumerable<ProductViewModel>>.Failure(Error.Failure("Catalog.ProductsServices.GetAllProducts", ex.Message));
+            return HandleError<IEnumerable<ProductViewModel>>("Catalog.ProductsServices.GetAllProducts", ex);
         }
     }
 
@@ -79,7 +77,7 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
         }
         catch (Exception ex)
         {
-            return Result<ProductViewModel>.Failure(Error.Failure("Catalog.ProductsServices.GetProductById", ex.Message));
+            return HandleError<ProductViewModel>("Catalog.ProductsServices.GetProductById", ex);
         }
     }
 
@@ -96,7 +94,7 @@ public class ProductsServices(IProductsRepository repo) : IProductsServices
         }
         catch (Exception ex)
         {
-            return Result.Failure(Error.Failure("Catalog.ProductsServices.UpdateProduct", ex.Message));
+            return HandleError("Catalog.ProductsServices.UpdateProduct", ex);
         }
     }
 }

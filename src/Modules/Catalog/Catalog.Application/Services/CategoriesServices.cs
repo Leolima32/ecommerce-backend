@@ -3,11 +3,12 @@ using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 using Catalog.Domain.Errors;
 using Catalog.Domain.Interfaces;
+using Shared.Base;
 using Shared.Models;
 
 namespace Catalog.Application.Services;
 
-public class CategoriesServices(ICategoriesRepository repo) : ICategoriesServices
+public class CategoriesServices(ICategoriesRepository repo) : BaseServices, ICategoriesServices
 {
     private readonly ICategoriesRepository _repo = repo;
 
@@ -19,7 +20,7 @@ public class CategoriesServices(ICategoriesRepository repo) : ICategoriesService
         }
         catch (Exception ex)
         {
-            return Result<Guid>.Failure(Error.Failure("Catalog.Categories.AddCategory", ex.Message));
+            return HandleError<Guid>("Catalog.Categories.AddCategory", ex);
         }
     }
 
@@ -30,9 +31,9 @@ public class CategoriesServices(ICategoriesRepository repo) : ICategoriesService
             _repo.Remove(id);
             return Result.Success();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Result.Failure(CategoriesErrors.UnableToDeleteCategoryThatDoesNotExists);
+            return HandleError("Catalog.Categories.DeleteCategory", ex);
         }
     }
 
@@ -44,7 +45,7 @@ public class CategoriesServices(ICategoriesRepository repo) : ICategoriesService
         }
         catch (Exception ex)
         {
-            return Result<IEnumerable<Category>>.Failure(Error.Failure("Catalog.Categories.GetAllCategories", ex.Message));
+            return HandleError<IEnumerable<Category>>("Catalog.Categories.GetAllCategories", ex);
         }
     }
 
@@ -58,7 +59,7 @@ public class CategoriesServices(ICategoriesRepository repo) : ICategoriesService
         }
         catch (Exception ex)
         {
-            return Result<Category>.Failure(Error.Failure("Catalog.Categories.GetCategoryById", ex.Message));
+            return HandleError<Category>("Catalog.Categories.GetCategoryById", ex);
         }
     }
 }
